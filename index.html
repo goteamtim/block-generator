@@ -27,7 +27,7 @@
             event.preventDefault();
             const textInput = document.getElementById("textInput").value.toLowerCase();
             const indices = generator.Find_Blocks(textInput);
-            if ( indices.length > 1 ) {
+            if ( indices.length > 0 ) {
                 resultDiv.textContent = "Blocks: " + indices[ 0 ].join(", "); // Hardcoded to use the first result
             }else
             {
