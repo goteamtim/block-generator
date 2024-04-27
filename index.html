@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Block Generator</title>
+    <script type="text/javascript" src="BlockGenerator.js"></script>
 </head>
 
 <body>
@@ -17,62 +18,21 @@
     <div id="result"></div>
 
     <script>
-        class BlockGenerator {
-            constructor() {
-                this._blocks = {
-                    "1": ['c', 'n', 'g', 'w'],
-                    "2": ['o', 'p', 'h', '&#x2665;'],
-                    "3": ['n', 'p', 'e', 'k'],
-                    "4": ['g', 'p', 'j', 'a'],
-                    "5": ['r', 'y', 'l', '4'],
-                    "6": ['a', 'n', 'o', 'f'],
-                    "7": ['t', 'i', 'm', 'u'],
-                    "8": ['u', 'v', 's', 'a'],
-                    "9": ['l', 'e', 'b', 'r'],
-                    "10": ['a', 'l', 'o', 'm'],
-                    "11": ['t', 'r', 'd', 'i'],
-                    "12": ['i', 'd', 'h', 'v'],
-                    "13": ['o', 'r', 'g', 's'],
-                    "14": ['n', 'd', 'e', 't'],
-                    "15": ['s', 'w', 'c', 'a'],
-                    "16": ['flag', 'y', 'e', 'q'],
-                };
-            }
-
-            Find_Blocks(text) {
-                const usedBlocks = new Set();  // Keep track of used blocks
-                const indices = [];
-                const textWithoutSpaces = text.replace(/\s/g, ""); // Ignore spaces
-                for (const char of textWithoutSpaces) {
-                    let found = false;
-                    for (const [key, block] of Object.entries(this._blocks)) {
-                        if (block.includes(char) && !usedBlocks.has(key)) {
-                            indices.push(key);
-                            usedBlocks.add(key);
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        return "Can't spell message";
-                    }
-                }
-                return indices;
-            }
-        }
-
-
-
-        const generator = new BlockGenerator();
-
         const form = document.getElementById("generator_form");
         const resultDiv = document.getElementById("result");
 
+        const generator = new BlockGenerator()
+
         form.addEventListener("submit", function (event) {
             event.preventDefault();
-            const textInput = document.getElementById("textInput").value;
+            const textInput = document.getElementById("textInput").value.toLowerCase();
             const indices = generator.Find_Blocks(textInput);
-            resultDiv.textContent = "Indices: " + indices.join(", ");
+            if ( indices.length > 1 ) {
+                resultDiv.textContent = "Blocks: " + indices[ 0 ].join(", "); // Hardcoded to use the first result
+            }else
+            {
+                resultDiv.textContent = "Can't spell message";
+            }
         });
     </script>
 </body>
